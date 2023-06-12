@@ -14,12 +14,18 @@ Contact Me: jmuth.com
 """
 
 # Let's bring in the good stuff
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, send_from_directory, url_for
+from database import * #  Bring in database related functions
+from myfunctions import * # Bring in various other functions
 
 # Set up the Flask app
 app = Flask(__name__)
 
 login_status = True
+
+
+# Creating a function to get the current time/date in CST
+
 
 # Let's define the home route
 @app.route("/")
@@ -45,7 +51,8 @@ def allsessions():
   page_title = 'All Sessions'
   return render_template('allsessions.html',
                         page_title = page_title,
-                        login_status = login_status)
+                        login_status = login_status,
+                        current_date_time = get_current_cst_time())
 
 
 # Let's set up the your sessions page
@@ -54,7 +61,8 @@ def mysessions():
   page_title = 'My Sessions'
   return render_template('mysessions.html',
                         page_title = page_title,
-                        login_status = login_status)
+                        login_status = login_status,
+                        current_date_time = get_current_cst_time())
 
 
 # Let's set up the session sign up page
