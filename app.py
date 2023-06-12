@@ -49,10 +49,12 @@ def login():
 @app.route("/sessions")
 def allsessions():
   page_title = 'All Sessions'
+  sessions = load_sessions_from_db()
   return render_template('allsessions.html',
                         page_title = page_title,
                         login_status = login_status,
-                        current_date_time = get_current_cst_time())
+                        current_date_time = get_current_cst_time(),
+                        sessions = sessions)
 
 
 # Let's set up the your sessions page

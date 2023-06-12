@@ -1,5 +1,9 @@
 from sqlalchemy import create_engine, text
 import os
+from dotenv import load_dotenv
+from myfunctions import *
+
+load_dotenv()
 
 
 DATABASE = os.environ['DB_DATABASE']
@@ -16,12 +20,14 @@ engine = create_engine("mysql+pymysql://"+USERNAME+':'+PASSWORD+'@'+HOST+'/'+DAT
 
 def load_sessions_from_db():
   with engine.connect() as conn:
-    result = conn.execute(text("select * from ClassInformation"))
-  
+    statement = text("select * from ClassInformation")
+    result = conn.execute(statement)
     result_dicts = []
     for row in result.all():
-      result_dicts.append(row._asdict())
-    print(result_dicts)
+      row = row._asdict()
+      start_time = row['ClassStartTime']
+      end_time = row ['ClassEndTime']
+      row['ClassStartTime'] = time_24_to_12(start_time)
+      row['ClassEndTime'] = time_24_to_12(end_time)
+      result_dicts.append(row)
     return result_dicts
-
-load_sessions_from_db()

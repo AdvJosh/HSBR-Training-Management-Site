@@ -99,6 +99,17 @@ ed25519 = ["PyNaCl (>=1.4.0)"]
 rsa = ["cryptography"]
 
 [[package]]
+name = "python-dotenv"
+version = "1.0.0"
+description = "Read key-value pairs from a .env file and set them as environment variables"
+category = "main"
+optional = false
+python-versions = ">=3.8"
+
+[package.extras]
+cli = ["click (>=5.0)"]
+
+[[package]]
 name = "pytz"
 version = "2023.3"
 description = "World timezone definitions, modern and historical"
@@ -167,7 +178,7 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "e0dc8b42d5f2aa4da7508e514b64a86527d4a8a259ab2710dc3ec00a527b2494"
+content-hash = "935cfd1ee215558bb920faa856e5eec5349a6c273c49ccc4685d9df93fc1491d"
 
 [metadata.files]
 blinker = []
@@ -179,6 +190,7 @@ itsdangerous = []
 jinja2 = []
 markupsafe = []
 pymysql = []
+python-dotenv = []
 pytz = []
 sqlalchemy = []
 typing-extensions = []

@@ -10,6 +10,7 @@ Flask = "^2.3.2"
 pytz = "^2023.3"
 SQLAlchemy = "^2.0.16"
 pymysql = "^1.0.3"
+python-dotenv = "^1.0.0"
 
 [tool.poetry.dev-dependencies]
 

@@ -26,7 +26,11 @@
     </p>
     <div class="collapse" id="collapseTuesday">
       <div class="card card-body">
-        {% include 'sessiondata.html' %}
+        {% for session in sessions %}
+          {% if session['ClassDate'] == 1642023 %}
+            {% include 'sessiondata.html' %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
       <hr>
@@ -37,7 +41,11 @@
     </p>
     <div class="collapse" id="collapseWednesday">
       <div class="card card-body">
-        {% include 'sessiondata.html' %}
+        {% for session in sessions %}
+          {% if session['ClassDate'] == 1652023 %}
+            {% include 'sessiondata.html' %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
       <hr>
@@ -48,7 +56,11 @@
     </p>
     <div class="collapse" id="collapseThursday">
       <div class="card card-body">
-        {% include 'sessiondata.html' %}
+        {% for session in sessions %}
+          {% if session['ClassDate'] == 1662023 %}
+            {% include 'sessiondata.html' %}
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
     </div>
