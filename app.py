@@ -23,6 +23,8 @@ app = Flask(__name__)
 
 login_status = True
 
+# For Testing Use
+EmpID = 49080
 
 # Creating a function to get the current time/date in CST
 
@@ -57,14 +59,24 @@ def allsessions():
                         sessions = sessions)
 
 
+@app.route('/sessions/<ClassID>')
+def sessionpages(ClassID):
+  session = load_single_session_from_db(ClassID)
+  return render_template('sessionpage.html',
+                        session = session,
+                        login_status = login_status)
+
+
 # Let's set up the your sessions page
 @app.route("/mysessions")
 def mysessions():
   page_title = 'My Sessions'
+  sessions = load_sessions_for_one_person(EmpID)
   return render_template('mysessions.html',
                         page_title = page_title,
                         login_status = login_status,
-                        current_date_time = get_current_cst_time())
+                        current_date_time = get_current_cst_time(),
+                        sessions = sessions)
 
 
 # Let's set up the session sign up page
