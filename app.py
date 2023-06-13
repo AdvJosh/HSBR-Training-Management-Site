@@ -88,6 +88,13 @@ def login():
                         error=error)
 
 
+# Let's set up a log-out route
+@app.route("/logout")
+def logout():
+  resp = make_response(redirect('/'))
+  resp.delete_cookie('EmpID')
+  return resp
+
 # Let's set up the all sessions route
 @app.route("/sessions")
 def allsessions():
