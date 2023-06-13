@@ -14,7 +14,29 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
     {% include 'header.html' %}
-    <p>This is the {{page_title}} page</p>
+    <div class="container">
+      <h1 class="display-5 text-center">Please login to access this site.</h1>
+      <p class="lead text-center">This site will provide a guide to all of the training going on at Horseshoe Bay Resort with Forbes Travel Guide. You can view all sessions, the sessions you are signed up for, and check in for each session to track your attendance.</p>
+      <br>
+      <form action="" method="post">
+        <div class="">
+          <div class="pb-3">
+            <p class="lead"><b>Employee ID:</b></p>
+            <input type="text" placeholder="Employee ID (Ex: 56743)" name="EmpID" value="{{request.form.username }}" class="p-1">
+          </div>
+          <div class="">
+            <p class="lead"><b>Year of Birth:</b></p>
+            <input type="text" placeholder="Year of Birth: (Ex: 1997)" name="BirthYear" value="{{request.form.password }}" class="p-1">
+          </div>
+        </div>
+        <input class="btn btn-outline-success mt-4 center-text" type="submit" value="Login">
+      </form>
+      {% if error %}
+        <div class="h4 pb-2 mb-4 mt-4 text-danger border-top border-danger">
+          <p class="error"><strong>Error:</strong> {{ error }}
+        </div>
+      {% endif %}
+    </div>
     {% include 'footer.html' %}
   </body>
 </html>

@@ -1,4 +1,4 @@
-from sqlalchemy import create_engine, text
+from sqlalchemy import create_engine, text, insert
 import os
 from dotenv import load_dotenv
 from myfunctions import *
@@ -64,3 +64,57 @@ def load_sessions_for_one_person(EmpID):
     if row['ClassID'] in roster_result_list:
       result_dict.append(row)
   return result_dict
+
+def verify_login_from_db(login_dict):
+  with engine.connect() as conn:
+    statement = text("SELECT * FROM EmployeeData WHERE EmpID = :EmpID AND EmpDoB LIKE '%:BirthYear'")
+    result = conn.execute(statement, login_dict)
+    result = result.fetchone()
+    if result == None:
+      result = {}
+      result['valid'] = False
+      return result
+    else:
+      result = result._asdict()
+      result['valid'] = True
+      return result
+
+
+def session_sign_in_to_db(session_signin_dict):
+  session_data = {}
+  with engine.connect() as conn:
+    statement = text("Select * FROM ClassInformation WHERE SessionCode=:SessionCode")
+    result = conn.execute(statement, session_signin_dict)
+    result =  result.fetchone()
+    if result == None:
+      result = {}
+      result['debug'] = 'Couldnt find class'
+      result['valid'] = False
+      return result
+    else:
+      session_data = result._asdict()
+  with engine.connect() as conn:
+    statement = text("SELECT * FROM ClassSignin WHERE EmpID = :EmpID and SessionCode = :SessionCode")
+    result = conn.execute(statement, session_signin_dict)
+    result = result.fetchone()
+    if result != None:
+      result = {}
+      result['debug'] = 'I found a duplicate'
+      result['valid'] = False
+      return result
+  # Lets construct the dict of data for the db
+  db_insert_dict = {}
+  db_insert_dict['ClassID'] = session_data['ClassID']
+  db_insert_dict['EmpID'] = session_signin_dict['EmpID']
+  db_insert_dict['SessionCode'] = session_signin_dict['SessionCode']
+  db_insert_dict['TimeCST'] = get_current_cst_time_db()
+  db_insert_dict['ClassDate'] = get_current_jd_date()
+  with engine.connect() as conn:
+    statement = text("INSERT INTO ClassSignin (ClassID, EmpID, SessionCode, TimeCST, ClassDate) VALUES (:ClassID, :EmpID, :SessionCode, :TimeCST, :ClassDate)")
+    result = conn.execute(statement, db_insert_dict)
+    conn.commit()
+  result = {}
+  result['ClassName'] = session_data['ClassName']
+  result['valid'] = True
+  return result
+  

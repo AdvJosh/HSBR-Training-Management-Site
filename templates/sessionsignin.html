@@ -17,6 +17,22 @@
     <div class="container">
       <h1 class="display-5 text-center">Forbes™ Training Sessions<br>Sign In</h1>
       <p class="lead text-center">Be sure to sign in for every session that you attend to get credit!<br>You will need the session code which will be displayed on screen or given by Teri Hathaway or Josh Muth.</p>
+      <br>
+      <form action="" method="post">
+        <p class="lead"><b>Session Code:</b></p>
+        <input type="text" placeholder="Session Code" name="SessionCode" value="{{request.form.SessionCode}}">
+        <input class="btn btn-outline-success ms-4" type="submit" value="Submit">
+      </form>
+      {% if error %}
+        <div class="h4 pb-2 mb-4 mt-4 text-danger border-top border-danger">
+          <p class="error"><strong>Error:</strong> {{ error }}
+        </div>
+      {% endif %}
+      {% if sign_in_successs %}
+        <div class="border border-success p-2 mb-4 mt-4 rounded bg-success bg-opacity-25">
+          <p class=""> {{ sign_in_successs }}</p>
+        </div>
+      {% endif %}
     </div>
     {% include 'footer.html' %}
   </body>
