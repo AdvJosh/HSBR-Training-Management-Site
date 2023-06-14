@@ -80,6 +80,21 @@ def verify_login_from_db(login_dict):
       return result
 
 
+def check_sign_in_status(ClassID,EmpID):
+  with engine.connect() as conn:
+    statement = text("SELECT * FROM ClassSignin WHERE EmpID = :EmpID AND ClassID = :ClassID")
+    values = {}
+    values['EmpID'] = EmpID
+    values['ClassID'] = ClassID
+    result = conn.execute(statement, values)
+    result = result.fetchone()
+    if result == None:
+      return None
+    else: 
+      return True
+    
+
+
 def session_sign_in_to_db(session_signin_dict):
   session_data = {}
   with engine.connect() as conn:

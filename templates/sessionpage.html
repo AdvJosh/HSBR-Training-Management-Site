@@ -20,9 +20,15 @@
       <p><b>Class Date:</b> {{session['ClassDate']}}</p>
       <p class=""><b>Start Time:</b> {{session['ClassStartTime']}}</p>
       <p class=""><b>End Time:</b> {{session['ClassEndTime']}}</p>
+      {% if attended %}
+        <span class="border border-3 p-2 border-success rounded-pill" style="background-color:#6fb36b;">You have attended this session!</span><br><br>
+      {% else %}
+        <span class="border border-3 p-2 border-danger rounded-pill" style="background-color:#ff6969;">You have not attended this session.</span><br><br>
+      {% endif %}
       <h4 class="display-8 text-left">Class Description:</h4>
       <p class="lead text-center">{{session['ClassDescription']}}</p>
-      <br>
+      <hr>
+      <p>Not seeing a class marked as completed that you were in attandance for? Please reach out to Joshua Muth (jmuth@hsbresort.com) and we can get that corrected!</p>
       <div class=" d-grid gap-2 col-6 mx-auto">
       <a href="javascript:history.back()" type="button" class="btn btn-primary btn-md">Go Back</a>
       </div>

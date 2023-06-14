@@ -116,6 +116,7 @@ def allsessions():
 @app.route('/sessions/<ClassID>')
 def sessionpages(ClassID):
   EmpID = request.cookies.get('EmpID')
+  signed_in_bool = check_sign_in_status(int(ClassID),int(EmpID))
   if EmpID == None:
     return redirect('/login')
   else:
@@ -124,7 +125,8 @@ def sessionpages(ClassID):
   session = load_single_session_from_db(ClassID)
   return render_template('sessionpage.html',
                         session = session,
-                        login_status = login_status)
+                        login_status = login_status,
+                        attended = signed_in_bool)
 
 
 # Let's set up the your sessions page
