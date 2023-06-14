@@ -22,7 +22,7 @@ def get_current_jd_date():
 
 def get_current_cst_time_db():
   utcmoment = datetime.utcnow()
-  localFormat = "%I%M"
+  localFormat = "%-H%M"
   localDatetime = utcmoment.astimezone(pytz.timezone('America/Chicago'))
   localDatetime = localDatetime.strftime(localFormat)
   return localDatetime
@@ -42,3 +42,14 @@ def convert_jd_to_date(jd):
     result_date = start_date + timedelta(days=day-1)
     # format the date string using the specified format
     return result_date.strftime(date_format)
+
+
+def convert_dob_jd_to_date(jd):
+  date_format = '%Y'
+  day = int(str(jd)[:-4])
+  year = int(str(jd)[-4:])
+  start_date = datetime(year, 1, 1)
+  # add the number of days to the start date
+  result_date = start_date + timedelta(days=day-1)
+  # format the date string using the specified format
+  return result_date.strftime(date_format)

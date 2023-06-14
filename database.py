@@ -114,7 +114,7 @@ def session_sign_in_to_db(session_signin_dict):
     result = result.fetchone()
     if result != None:
       result = {}
-      result['debug'] = 'I found a duplicate'
+      result['debug'] = 'Duplicate'
       result['valid'] = False
       return result
   # Lets construct the dict of data for the db
@@ -132,4 +132,19 @@ def session_sign_in_to_db(session_signin_dict):
   result['ClassName'] = session_data['ClassName']
   result['valid'] = True
   return result
-  
+
+
+def emp_db_lookup(emp_lookup_dict):
+  with engine.connect() as conn:
+    # Fix the statement parsing for this, it is not good from a security standpoint
+    statement = "SELECT * FROM EmployeeData WHERE EmpName Like '%"\
+    + str(emp_lookup_dict['EmpName']) + "%'"
+    statement = text(statement)
+    result = conn.execute(statement)
+    result_dict = []
+    for row in result.all():
+      row = row._asdict()
+      date = convert_dob_jd_to_date(row['EmpDoB'])
+      row['EmpDoB'] = date
+      result_dict.append(row)
+    return result_dict

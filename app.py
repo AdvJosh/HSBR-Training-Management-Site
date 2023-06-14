@@ -22,7 +22,8 @@ from flask import (
   send_from_directory, 
   url_for,
   redirect,
-  make_response
+  make_response,
+  Markup
 )
 from database import * #  Bring in database related functions
 from myfunctions import * # Bring in various other functions
@@ -32,6 +33,7 @@ from dotenv import load_dotenv
 # Load enviromental variables
 load_dotenv()
 SECRET_KEY = os.environ['SECRET_KEY']
+ADMIN_COOKIE_NAME = os.environ['ADMIN_COOKIE_NAME']
 
 # Set up the Flask app
 app = Flask(__name__)
@@ -79,7 +81,7 @@ def login():
           EmpID = str(login_result['EmpID'])
           resp = make_response(redirect('/'))
           resp.set_cookie('EmpID',EmpID,43200)
-          return resp 
+          return resp
     except ValueError:
       error = 'The fields should only contain numbers. Please try logging in again.'
   return render_template('login.html',
@@ -168,8 +170,10 @@ def sessionsignin():
         session_code = request.form['SessionCode']
         session_signin_dict = {'EmpID' : EmpID, 'SessionCode' : session_code.upper()}
         session_signin_result = session_sign_in_to_db(session_signin_dict)
-        if session_signin_result['valid'] == False:
-          error = 'Session Code Invalid or you are already signed in for this session. Please try again.'
+        if session_signin_result['valid'] == False and session_signin_result['debug'] == 'Couldnt find class':
+          error = 'Session Code Invalid! Please double check the session code you entered and try again.'
+        elif session_signin_result['valid'] == False and session_signin_result['debug'] == 'Duplicate':
+          error = 'You have already signed in for this session previously. You are good to go!'
         else:
           sign_in_message = 'You have sucsessfully signed in for: '\
           + session_signin_result['ClassName'] + '!'
@@ -180,6 +184,118 @@ def sessionsignin():
                         login_status = login_status,
                         error = error,
                         sign_in_successs = sign_in_message)
+
+
+"""
+#-#-#-#-#-#-#-#-#-#
+    Admin Tools
+#-#-#-#-#-#-#-#-#-#
+"""
+@app.route("/admin/no-access")
+def noaccess():
+  return render_template('/admin/no-access.html')
+
+#TODO make this better
+# A landing page for any admin tools, like the home page but for cool people
+@app.route("/admin")
+def admin_landing_page():
+  EmpID = request.cookies.get('EmpID')
+  admin_access = request.cookies.get(ADMIN_COOKIE_NAME)
+  if EmpID == None:
+    return redirect('/login')
+  else:
+    EmpID = int(EmpID)
+    login_status = True
+  if admin_access == None:
+    return redirect('/admin/no-access')
+  elif admin_access == True:
+    admin_access = True    
+  page_title = 'ADMIN: Landing Page'
+  return render_template('/admin/admin-landing-page.html')
+
+
+# Let's set up the a page for admins to sign associates into sessions
+@app.route("/admin/session-signin", methods=['GET', 'POST'])
+def admin_sessionsignin():
+  EmpID = request.cookies.get('EmpID')
+  admin_access = request.cookies.get(ADMIN_COOKIE_NAME)
+  if EmpID == None:
+    return redirect('/login')
+  else:
+    EmpID = int(EmpID)
+    login_status = True
+  if admin_access == None:
+    return redirect('/admin/no-access')
+  elif admin_access == True:
+    admin_access = True    
+  page_title = 'ADMIN: Session Sign In'
+  error = None
+  sign_in_message = None
+  if request.method == 'POST':
+    try:
+      if len(request.form['SessionCode']) != 4:
+        error = 'Session Code should be 4 characters long, you typed '\
+        + str(len(request.form['SessionCode'])) + ' characters. Try again.'
+      if len(request.form['EmpID']) != 5:
+        error = 'Employee ID should be 5 characters long, you typed '\
+        + str(len(request.form['EmpID'])) + ' characters. Try again.'
+      else:
+        session_code = request.form['SessionCode']
+        form_EmpID = request.form['EmpID']
+        session_signin_dict = {'EmpID' : form_EmpID, 'SessionCode' : session_code.upper()}
+        session_signin_result = session_sign_in_to_db(session_signin_dict)
+        if session_signin_result['valid'] == False and session_signin_result['debug'] == 'Couldnt find class':
+          error = 'Session Code Invalid! Please double check the session code you entered and try again.'
+        elif session_signin_result['valid'] == False and session_signin_result['debug'] == 'Duplicate':
+          error = 'This associate is already signed in for this session!'
+        else:
+          sign_in_message = '&nbsp;&nbsp;You have sucsessfully added a sign in record! <br> ID: '\
+          + str(form_EmpID) + '<br> to the class with a name of: '\
+          + session_signin_result['ClassName']
+    except ValueError as e:
+      error = e+'Their was an error with what you entered. Please try logging in again.'
+  return render_template('/admin/session-signin.html',
+                        page_title = page_title,
+                        login_status = login_status,
+                        error = error,
+                        sign_in_successs = Markup(sign_in_message))
+
+
+
+# A page to let admins look up an associate
+@app.route('/admin/associate-lookup', methods=['GET', 'POST'])
+def associate_lookup():
+  EmpID = request.cookies.get('EmpID')
+  admin_access = request.cookies.get(ADMIN_COOKIE_NAME)
+  emp_lookup_result = None
+  if EmpID == None:
+    return redirect('/login')
+  else:
+    EmpID = int(EmpID)
+    login_status = True
+  if admin_access == None:
+    return redirect('/admin/no-access')
+  elif admin_access == True:
+    admin_access = True    
+  page_title = 'ADMIN: Associate Lookup'
+  error = None
+  if request.method == 'POST':
+    try:
+      input = str(request.form['EmpName'])
+      if not input.isalpha():
+        error = 'Name search string should ONLY contain alphabetical characters.'
+      else:
+        emp_lookup_dict = {'EmpName' : input}
+        emp_lookup_result = emp_db_lookup(emp_lookup_dict)
+        if len(emp_lookup_result) == 0:
+          error = 'No results were returned... Please try a different name to search for.'
+    except ValueError as e:
+      error = e+'Their was an error with what you entered. Please try again.'
+  return render_template('/admin/associate-lookup.html',
+                        page_title = page_title,
+                        login_status = login_status,
+                        error = error,
+                        emp_lookup_result = emp_lookup_result)
 
 
 # Now, let's run the dev server on every available interface
