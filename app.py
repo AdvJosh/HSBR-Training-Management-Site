@@ -78,7 +78,7 @@ def login():
         else:
           EmpID = str(login_result['EmpID'])
           resp = make_response(redirect('/'))
-          resp.set_cookie('EmpID',EmpID,7800)
+          resp.set_cookie('EmpID',EmpID,43200)
           return resp 
     except ValueError:
       error = 'The fields should only contain numbers. Please try logging in again.'
