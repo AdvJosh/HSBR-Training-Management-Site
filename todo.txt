@@ -9,3 +9,4 @@ A list of improvements I should make:
 * Incorporate the associates name into the pages
 * Make the admin/no-access page pretty
 * Show sessions that they were not signed up for but did complete in the "My Sesssions" page
+* Impliment Flask blueprints for better future ussage of this site.
