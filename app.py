@@ -1,17 +1,24 @@
 """
-Written to allow viewing sessions and signing in for sessions
-for the in-house Forbes travel guide training we are bringing
-in. Please note that Forbes travel guide in no way acknowledges,
+This was first written to allow viewing sessions and signing in for 
+sessions for the in-house Forbes travel guide training we brought in.
+Please note that Forbes travel guide in no way acknowledges,
 supports, or endorses anything in this project. 
 
-This is public because I need it to be to work with replit, but 
-once development is complete, it will be moved back to private.
+Now this is morphing in to a basic training management system
+that I will contenue to write and impove on as I have time.
+I will be entirely rebasing the code from here on out, so 
+if you want the final Forbes training version, you want 
+to pull commit d1152e1.
+
+This is public because I like open source things, so I feel it is
+only fair that I make most of the things I make open source too.
 If you can learn something from it, great, but note that this is
 not really intended for anything but my particular use-case.
 
 Written By: Joshua Muth
 Contact Me: jmuth.com
 """
+
 
 # Let's bring in the good stuff
 from flask import (
@@ -53,7 +60,7 @@ def home():
   else:
     EmpID = int(EmpID)
     login_status = True
-  page_title = 'HSBR Forbes Training Home'
+  page_title = 'HSBR Training Portal Home'
   return render_template('home.html',
                         page_title = page_title,
                         login_status = login_status)
@@ -199,6 +206,7 @@ def noaccess():
 # A landing page for any admin tools, like the home page but for cool people
 @app.route("/admin")
 def admin_landing_page():
+  page_title = "Admin Tools"
   EmpID = request.cookies.get('EmpID')
   admin_access = request.cookies.get(ADMIN_COOKIE_NAME)
   if EmpID == None:
@@ -211,7 +219,9 @@ def admin_landing_page():
   elif admin_access == True:
     admin_access = True    
   page_title = 'ADMIN: Landing Page'
-  return render_template('/admin/admin-landing-page.html')
+  return render_template('/admin/admin-landing-page.html',
+                        page_title = page_title,
+                        login_status = login_status,)
 
 
 # Let's set up the a page for admins to sign associates into sessions
