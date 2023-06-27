@@ -31,7 +31,7 @@ def time_24_to_12(time_to_convert):
     if len(str(time_to_convert)) < 4:
         time_to_convert = '0' + str(time_to_convert)
     time = datetime.strptime(str(time_to_convert), "%H%M")
-    return time.strftime("%-I:%M %p")
+    return time.strftime("%I:%M %p")
 
 def convert_jd_to_date(jd):
     date_format = '%A, %B %-d, %Y'

@@ -1,1 +1,58 @@
-<a href="/admin/session-signin" target="_blank">Sign an associate in</a>
+<!DOCTYPE html>
+<html lang="en-US">
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{page_title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+    <link rel="icon" type="image/ico" href="static/favicon.ico">
+    <style>
+      
+    </style>
+  </head>
+  <body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    {% include 'header.html' %}
+    <div class="container">
+        <h1 class="display-5 text-center">Admin Tools<br>Landing Page</h1>
+        <p class="lead text-center">Well welcome, you admin you! This is a simple page for now, but it will provide you easy links to all of the admin tools. No more remembering semi-arbitrary urls!</p>
+        <!-- The Associate Lookup Tool -->
+        <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
+            <div class="row">
+              <div class="col-10">
+                <h6 style="color:rgb(35,35,35); margin-bottom:4px;">
+                  Associate Lookup
+                </h6>
+                <div>
+                    This tool allows you to look up an associate by name to find their employee ID and birth year. Helpful for helping an associate
+                    sign in to the site or for signing an associate into a session manually.
+                </div>
+                <div class="col-2 mt-4">
+                  <a target="_blank" rel="noopener noreferrer" href="/admin/associate-lookup" type="button" class="btn btn-primary btn-sm">Open In New Tab</a>
+                </div>
+              </div>
+          </div>
+        </div>
+        <!-- The Manual Session Sign In Tool -->
+        <div class="border-bottom row" style="margin-bottom:16px;padding-bottom:8px;">
+            <div class="row">
+              <div class="col-10">
+                <h6 style="color:rgb(35,35,35); margin-bottom:4px;">
+                  Manual Session Sign In
+                </h6>
+                <div>
+                    This tool allows you to manually sign an associate into a session by providing their employee ID and the session code of the class you
+                    want to sign them into. Note that it won't show any difference in the database when using this tool and the sign in time will be recorded
+                    as the current time when you submit the form.
+                </div>
+                <div class="col-2 mt-4">
+                  <a target="_blank" rel="noopener noreferrer" href="/admin/session-signin" type="button" class="btn btn-primary btn-sm">Open In New Tab</a>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+    {% include 'footer.html' %}
+  </body>
+</html>
