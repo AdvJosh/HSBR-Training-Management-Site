@@ -1,14 +1,22 @@
 A list of improvements I should make:
-    * A Spanish locale for the site
-    * Admin Tool - edit class information
-    * Admin Tool - Update Session Sign in information
-    * A different admin header tool bar
-    * An admin landing page
-    * Incorporate the associates name into the pages
-    * Make the admin/no-access page pretty
-    * Show sessions that they were not signed up for but did complete in the "My Sessions" page
-    * Implement Flask blueprints for better future usage of this site.
-    * Implement a better login management system than cookies
-    * Implement user management that allows people other than me to have admin features
-    * Refactor the code to use flask blueprints for better readability
-    * Build out the admin links page
+    ☐ A Spanish locale for the site
+    ☐ Admin Tool - edit class information
+    ☐ Admin Tool - Update Session Sign in information
+    ☐ A different admin header tool bar
+    ☐ A better admin landing page
+    ☐ Create a "My Profile" page that allows for basic detail editing
+    ☐ Make the admin/no-access page pretty
+    ☐ Show sessions that they were not signed up for but did complete in the "My Sessions" page
+    ☐ Implement a better login management system than cookies
+    ☐ Implement user management that allows people other than me to have admin features
+    ☐ Build out the admin links page
+    ☐ Build out a class creation tool
+    ☐ Have the sessions pages show the classes for current week
+    ☐ Have a calendar to select date range to view classes scheduled for
+    ☐ Add a way for managers to schedule associates for classes
+    ☐ Add monthly report tool to display hours spent in training that are accessible to managers
+    ☐ Add ability to update employee data by uploading report
+    ☐ Add ability to send emails via SMTP
+
+Completed improvements:
+    ☑ Implement Flask blueprints to ease future improvements. - Implemented on 7/28/2023

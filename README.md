@@ -7,4 +7,4 @@ The git repo for the HSBR training portal website
 
 Want to see all the suff I want to add here? Check out the todo.txt! If you want to make my day, you could try and help me implement some of the things in there. If you want to contribute, I can set you up with sample data out of the DB to test implimenting things.
 
-Just as a side legal note, I am in no way supported or endorsed by Forbes or Forbes Travel Guide. All trademarks are property of their respective leagl owners.
+Just as a side legal note, I am in no way supported or endorsed by Forbes or Forbes Travel Guide. I've removed most references to it since the project evolved to a general training management system, but just covering bases. All trademarks are property of their respective leagl owners.
