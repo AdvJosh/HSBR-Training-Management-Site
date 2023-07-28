@@ -63,4 +63,4 @@ app.register_blueprint(sessions_bp, url_prefix='/sessions')
 
 # Now, let's run the dev server on every available interface
 if __name__ == "__main__":
-  app.run(host='0.0.0.0', debug=True)
+  app.run(host='0.0.0.0')
