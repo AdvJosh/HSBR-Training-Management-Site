@@ -1,7 +1,8 @@
 from flask import (
     Blueprint,
     request,
-    render_template)
+    render_template,
+    redirect)
 
 
 # Defining a blueprint
